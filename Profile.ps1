@@ -1,11 +1,11 @@
 #Requires -Version 7
 
-# Version 1.2.12
+# Version 1.0.0
 
 # Cross-platform PowerShell profile based on https://devblogs.microsoft.com/powershell/optimizing-your-profile/
 
 # check if newer version
-$gistUrl = "https://api.github.com/gists/a4e366e6b01f0b70eae90557dfc9d21d"
+$gistUrl = "https://api.github.com/gists/5beceaccb6bd72a7a8ce60993fb9beed"
 $latestVersionFile = [System.IO.Path]::Combine("$HOME", '.latest_profile_version')
 $versionRegEx = "# Version (?<version>\d+\.\d+\.\d+)"
 
@@ -118,11 +118,10 @@ function prompt {
     if (Test-Path $HOME\.config\powershell\themes\jan.json) {
 
         try {
-            Import-Module oh-my-posh
-            Set-PoshPrompt -Theme $HOME\.config\powershell\themes\jan.json -ErrorAction Stop
+            oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\default.omp.json" | Invoke-Expression
+            
         } catch [System.Management.Automation.CommandNotFoundException] {
-            Install-Module oh-my-posh -Repository PSGallery -Force
-            Set-PoshPrompt -Theme $HOME\.config\powershell\themes\jan.json
+            
         }
 
     }
