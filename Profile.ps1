@@ -1,6 +1,6 @@
 #Requires -Version 7
 
-# Version 1.0.0
+# Version 1.0.4
 
 # Cross-platform PowerShell profile based on https://devblogs.microsoft.com/powershell/optimizing-your-profile/
 
@@ -20,7 +20,7 @@ if ([System.IO.File]::Exists($latestVersionFile)) {
     if ([version]$latestVersion -gt $currentVersion) {
         Write-Verbose "Your version: $currentVersion" -Verbose
         Write-Verbose "New version: $latestVersion" -Verbose
-        $choice = Read-Host -Prompt "Found newer profile, install? (Y)"
+        $choice = Read-Host -Prompt "Found newer profile, install? (Y)"Y
         if ($choice -eq "Y" -or $choice -eq "") {
             try {
                 $gist = Invoke-RestMethod $gistUrl -ErrorAction Stop
@@ -93,7 +93,6 @@ function prompt {
         Set-PSReadLineKeyHandler -Chord Ctrl+f -Function ForwardWord
         Set-PSReadLineOption -MaximumHistoryCount 32767
         Set-PSReadLineOption -PredictionViewStyle ListView
-
         if ($IsWindows) {
             Set-PSReadLineOption -EditMode Emacs -ShowToolTips
             Set-PSReadLineKeyHandler -Chord Ctrl+Shift+c -Function Copy
@@ -106,7 +105,7 @@ function prompt {
                 Import-UnixCompleters
             }
         }
-
+    
     }
 
 
@@ -115,16 +114,8 @@ function prompt {
         Initialize-Profile
     }
 
-    if (Test-Path $HOME\.config\powershell\themes\jan.json) {
-
-        try {
-            oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\default.omp.json" | Invoke-Expression
-            
-        } catch [System.Management.Automation.CommandNotFoundException] {
-            
-        }
-
-    }
+    oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\default.omp.json" | Invoke-Expression
+    prompt
 
     $currentLastExitCode = $LASTEXITCODE
     $lastSuccess = $?
